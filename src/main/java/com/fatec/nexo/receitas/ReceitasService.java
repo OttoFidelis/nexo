@@ -50,9 +50,6 @@ public class ReceitasService {
 
     public ReceitasModel update(Integer id, ReceitasModel receita, UsuarioModel usuario) {
         ReceitasModel _receita = findById(id, usuario);
-        if(usuario != _receita.getUsuario()) {
-            throw new SecurityException("Acesso negado! Você não pode atualizar a receita de outro usuário.");
-        }
         _receita.setDescricao(receita.getDescricao());
         _receita.setQuantia(receita.getQuantia());
         saldoService.update(_receita.getUsuario(), receita);
@@ -60,11 +57,8 @@ public class ReceitasService {
     }
 
     public void delete(Integer id, UsuarioModel usuario) {
-        if(findById(id, usuario).getUsuario() != usuario) {
-            throw new SecurityException("Acesso negado! Você não pode deletar a receita de outro usuário.");
-        }
-        if(receitasRepository.existsById(id)) receitasRepository.deleteById(id);
-        else throw new ReceitasNotFoundException(id);
+        if(findById(id, usuario).getUsuario()!=null)
+        receitasRepository.deleteById(id);
     }
 
     public List<ReceitasModel> findByDataBetween(LocalDate start, LocalDate end) {
