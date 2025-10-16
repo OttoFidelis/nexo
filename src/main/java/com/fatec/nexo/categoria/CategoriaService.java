@@ -34,5 +34,6 @@ public class CategoriaService {
 
     public List<CategoriaModel> findAll() {
         return categoriaRepository.findAll();
+        
     }
 }
