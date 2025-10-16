@@ -21,6 +21,7 @@ import lombok.Data;
 
 /**
  * Modelo que representa o saldo de um usuário no sistema
+ * 
  * @author Otto Fidelis
  * @since 1.0
  * @version 1.0
@@ -31,6 +32,7 @@ import lombok.Data;
 public class SaldoModel {
     /**
      * Identificador único do saldo
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
@@ -41,6 +43,7 @@ public class SaldoModel {
 
     /**
      * Valor monetário do saldo atual
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
@@ -50,6 +53,7 @@ public class SaldoModel {
     /**
      * Data de criação ou atualização do saldo
      * Inicializada automaticamente com a data atual no construtor
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
@@ -59,6 +63,7 @@ public class SaldoModel {
     /**
      * Usuário proprietário do saldo
      * Relacionamento com a entidade Usuario
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
@@ -68,18 +73,18 @@ public class SaldoModel {
     /**
      * Lista de categorias associadas ao saldo
      * Relacionamento One-to-Many com CategoriaModel
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
      */
     @OneToMany
-    @JoinTable(name = "Saldo_categorias_Possui",
-        joinColumns = @JoinColumn(name = "saldo_id"), 
-        inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    @JoinTable(name = "Saldo_categorias_Possui", joinColumns = @JoinColumn(name = "saldo_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<CategoriaModel> categorias;
 
     /**
      * Construtor que inicializa a data e quantia com valores padrão
+     * 
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
@@ -91,51 +96,56 @@ public class SaldoModel {
 
     /**
      * Calcula o total de receitas a partir de uma lista
+     * 
      * @param receitas Lista de receitas a serem somadas
      * @return O valor total das receitas
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
      */
-    public BigDecimal calcularQuantiaReceitas(List<ReceitasModel> receitas){
+    public BigDecimal calcularQuantiaReceitas(List<ReceitasModel> receitas) {
         BigDecimal total = BigDecimal.ZERO;
-        for(ReceitasModel r : receitas){
-            total = total.add(BigDecimal.valueOf(r.getQuantia()));
-        }
+        if (receitas != null)
+            for (ReceitasModel r : receitas) {
+                total = total.add(BigDecimal.valueOf(r.getQuantia()));
+            }
         return total;
     }
 
     /**
      * Calcula o total de despesas a partir de uma lista
+     * 
      * @param despesas Lista de despesas a serem somadas
      * @return O valor total das despesas
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
      */
-    public BigDecimal calcularQuantiaDespesas(List<DespesasModel> despesas){
+    public BigDecimal calcularQuantiaDespesas(List<DespesasModel> despesas) {
         BigDecimal total = BigDecimal.ZERO;
-        for(DespesasModel d : despesas){
-            total = total.add(BigDecimal.valueOf(d.getQuantia()));
-        }
+        if (despesas != null)
+            for (DespesasModel d : despesas) {
+                total = total.add(BigDecimal.valueOf(d.getQuantia()));
+            }
         return total;
     }
 
     /**
      * Calcula a quantia de uma única receita
+     * 
      * @param receita Receita a ser calculada
      * @return O valor da receita
      * @author Otto Fidelis
      * @since 1.0
      * @version 1.0
      */
-    public BigDecimal calcularQuantiaReceitas(ReceitasModel receita){
+    public BigDecimal calcularQuantiaReceitas(ReceitasModel receita) {
         BigDecimal total = BigDecimal.ZERO;
         total = total.add(BigDecimal.valueOf(receita.getQuantia()));
         return total;
     }
 
-    public BigDecimal calcularQuantiaDespesas(DespesasModel despesa){
+    public BigDecimal calcularQuantiaDespesas(DespesasModel despesa) {
         BigDecimal total = BigDecimal.ZERO;
         total = total.add(BigDecimal.valueOf(despesa.getQuantia()));
         return total;
