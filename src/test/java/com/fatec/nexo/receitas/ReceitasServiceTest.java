@@ -1,27 +1,32 @@
 package com.fatec.nexo.receitas;
 
-import com.fatec.nexo.categoria.CategoriaModel;
-import com.fatec.nexo.receitas.exceptions.ReceitasNotFoundException;
-import com.fatec.nexo.saldo.SaldoModel;
-import com.fatec.nexo.saldo.SaldoService;
-import com.fatec.nexo.usuario.UsuarioModel;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.fatec.nexo.categoria.CategoriaModel;
+import com.fatec.nexo.receitas.exceptions.ReceitasNotFoundException;
+import com.fatec.nexo.saldo.SaldoModel;
+import com.fatec.nexo.saldo.SaldoService;
+import com.fatec.nexo.usuario.UsuarioModel;
 
 /**
  * Testes unitários para o serviço de Receitas.
@@ -104,9 +109,9 @@ class ReceitasServiceTest {
         when(receitasRepository.findById(999)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(ReceitasNotFoundException.class, () -> {
-            receitasService.findById(999, usuario);
-        });
+        ReceitasNotFoundException ex = assertThrows(ReceitasNotFoundException.class,
+            () -> receitasService.findById(999, usuario));
+        assertNotNull(ex);
     }
 
     @Test
@@ -154,7 +159,6 @@ class ReceitasServiceTest {
     void deveDeletarReceita() {
         // Arrange
         when(receitasRepository.findById(1)).thenReturn(Optional.of(receitaValida));
-        when(receitasRepository.existsById(1)).thenReturn(true);
         doNothing().when(receitasRepository).deleteById(1);
 
         // Act
