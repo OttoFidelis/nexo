@@ -319,12 +319,15 @@ class RelatorioServiceTest {
     @Test
     @DisplayName("Deve deletar relatório existente")
     void deveDeletarRelatorio() {
+        usuario = new UsuarioModel();
+        usuario.setNome("João Silva");
+        usuario.setEmail("joao@example.com");
         // Arrange
         when(relatorioRepository.findById(1)).thenReturn(Optional.of(relatorioValido));
         doNothing().when(relatorioRepository).deleteById(1);
 
         // Act & Assert
-        assertDoesNotThrow(() -> relatorioService.delete(1));
+        assertDoesNotThrow(() -> relatorioService.delete(1, usuario));
         verify(relatorioRepository).deleteById(1);
     }
 

@@ -196,8 +196,7 @@ public class RelatorioService {
      * @since 1.0
      * @version 1.0
      */
-    public void delete(Integer id) {
-        UsuarioModel usuario = findById(id, null).getDespesas().get(0).getUsuario();
+    public void delete(Integer id, UsuarioModel usuario) {
         if(findById(id, usuario) != null) relatorioRepository.deleteById(id);
     }
 }

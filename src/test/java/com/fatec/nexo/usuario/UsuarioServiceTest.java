@@ -1,20 +1,23 @@
 package com.fatec.nexo.usuario;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 /**
  * Testes unitários para o serviço de Usuários.
@@ -111,7 +114,7 @@ class UsuarioServiceTest {
         // Arrange
         UsuarioModel usuarioAtualizado = new UsuarioModel();
         usuarioAtualizado.setEmail("ana.paula@example.com");
-        usuarioAtualizado.setSenha("novaSenha456");
+        usuarioAtualizado.setSenha("asd123@#");
 
         when(usuarioRepository.findById("ana.paula@example.com")).thenReturn(Optional.of(usuarioValido));
         when(usuarioRepository.save(any(UsuarioModel.class))).thenReturn(usuarioAtualizado);
