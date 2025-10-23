@@ -8,7 +8,7 @@ permissions:
   contents: read
   packages: write
 
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,8 +23,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           server-id: 'github'                # deve bater com <distributionManagement><repository><id> no pom.xml
-          server-username: '${{ github.actor }}'
-          server-password: '${{ secrets.GITHUB_TOKEN }}'
+          server-username: 'OttoFidelis'
+          server-password: '${{ secrets.MAVEN_PUBLISH_TOKEN }}'
           settings-path: '${{ github.workspace }}'  # irá criar ${GITHUB_WORKSPACE}/settings.xml
 
       - name: Build with Maven
@@ -33,4 +33,4 @@ jobs:
       - name: Deploy to GitHub Packages
         run: mvn -B deploy --settings "${{ github.workspace }}/settings.xml"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_PUBLISH_TOKEN: ${{ secrets.MAVEN_PUBLISH_TOKEN }}
