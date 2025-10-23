@@ -85,6 +85,7 @@ public class ReceitasModel {
      */
     public ReceitasModel() {
         this.data = LocalDate.now();
+        
     }
 
     /**
