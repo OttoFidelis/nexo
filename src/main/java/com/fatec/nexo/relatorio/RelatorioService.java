@@ -81,7 +81,7 @@ public class RelatorioService {
      * @return O relatório semanal criado ou null se não houver dados
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.0.1
      */
     public RelatorioModel createSemanal(UsuarioModel usuario) {
         RelatorioModel _relatorio = new RelatorioModel(
@@ -89,8 +89,11 @@ public class RelatorioService {
             relatorioServiceHelper.getReceitasSemanaAnterior(usuario),
             saldoService.findLastSaldo(usuario).getQuantia()
         );
-        if(_relatorio.getDespesas().isEmpty() && _relatorio.getReceitas().isEmpty()) {
-            return null;
+        if(_relatorio.getDespesas().isEmpty()){
+            _relatorio.setTotalDespesas(0);
+        }
+        if(_relatorio.getReceitas().isEmpty()){
+            _relatorio.setTotalReceitas(0);
         }
         _relatorio.setTipo("Semanal");
         return relatorioRepository.save(_relatorio);
@@ -102,7 +105,7 @@ public class RelatorioService {
      * @return O relatório anual criado ou null se não houver dados
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.0.1
      */
     public RelatorioModel createAnual(UsuarioModel usuario) {
         RelatorioModel _relatorio = new RelatorioModel(
@@ -110,8 +113,11 @@ public class RelatorioService {
             relatorioServiceHelper.getReceitasAnoAnterior(usuario),
             saldoService.findLastSaldo(usuario).getQuantia()
         );
-        if(_relatorio.getDespesas().isEmpty() && _relatorio.getReceitas().isEmpty()) {
-            return null;
+        if(_relatorio.getDespesas().isEmpty()){
+            _relatorio.setTotalDespesas(0);
+        }
+        if(_relatorio.getReceitas().isEmpty()){
+            _relatorio.setTotalReceitas(0);
         }
         _relatorio.setTipo("Anual");
         return relatorioRepository.save(_relatorio);
@@ -125,7 +131,7 @@ public class RelatorioService {
      * @return O relatório personalizado criado ou null se não houver dados
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.0.1
      */
     public RelatorioModel createPersonalizado(UsuarioModel usuario, LocalDate start, LocalDate end) {
         RelatorioModel _relatorio = new RelatorioModel(
@@ -133,8 +139,11 @@ public class RelatorioService {
             relatorioServiceHelper.getReceitasData(start, end, usuario),
             saldoService.findLastSaldo(usuario).getQuantia()
         );
-        if(_relatorio.getDespesas().isEmpty() && _relatorio.getReceitas().isEmpty()) {
-            return null;
+        if(_relatorio.getDespesas().isEmpty()){
+            _relatorio.setTotalDespesas(0);
+        }
+        if(_relatorio.getReceitas().isEmpty()){
+            _relatorio.setTotalReceitas(0);
         }
         _relatorio.setTipo("Personalizado");
         return relatorioRepository.save(_relatorio);

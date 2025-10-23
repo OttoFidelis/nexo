@@ -78,20 +78,17 @@ public class SaldoService {
     }
 
     /**
-     * Cria um novo saldo quando o usuário já possui receitas e despesas
+     * Cria um novo saldo com valores zerados assim que o usuário cria uma conta
      * 
-     * @param usuario  usuario que irá criar as receitas e despesas do saldo
-     * @param receitas lista de receitas que o usuário está criando
-     * @param despesas lista de despesas que o usuário está criando
+     * @param usuario  usuario dono do saldo
      * @return saldo criado
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
-    public SaldoModel create(UsuarioModel usuario, List<ReceitasModel> receitas, List<DespesasModel> despesas) {
+    public SaldoModel create(UsuarioModel usuario) {
         SaldoModel saldo = new SaldoModel();
-        BigDecimal quantia = saldo.calcularQuantiaReceitas(receitas).subtract(saldo.calcularQuantiaDespesas(despesas));
-        saldo.setQuantia(quantia.doubleValue());
+        saldo.setQuantia(0);
         saldo.setUsuario(usuario);
         return saldoRepository.save(saldo);
     }
