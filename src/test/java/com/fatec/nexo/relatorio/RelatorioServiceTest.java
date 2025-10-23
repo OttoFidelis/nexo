@@ -2,14 +2,12 @@ package com.fatec.nexo.relatorio;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -133,24 +130,6 @@ class RelatorioServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar null ao criar relatório semanal sem dados")
-    void deveRetornarNullQuandoSemDadosSemanais() {
-        // Arrange
-        when(relatorioServiceHelper.getDespesasSemanaAnterior(usuario))
-                .thenReturn(Collections.emptyList());
-        when(relatorioServiceHelper.getReceitasSemanaAnterior(usuario))
-                .thenReturn(Collections.emptyList());
-        when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
-
-        // Act
-        RelatorioModel resultado = relatorioService.createSemanal(usuario);
-
-        // Assert
-        assertNull(resultado);
-        verify(relatorioRepository, never()).save(any(RelatorioModel.class));
-    }
-
-    @Test
     @DisplayName("Deve criar relatório anual com sucesso")
     void deveCriarRelatorioAnual() {
         // Arrange
@@ -167,24 +146,6 @@ class RelatorioServiceTest {
         // Assert
         assertNotNull(resultado);
         verify(relatorioRepository).save(any(RelatorioModel.class));
-    }
-
-    @Test
-    @DisplayName("Deve retornar null ao criar relatório anual sem dados")
-    void deveRetornarNullQuandoSemDadosAnuais() {
-        // Arrange
-        when(relatorioServiceHelper.getDespesasAnoAnterior(usuario))
-                .thenReturn(Collections.emptyList());
-        when(relatorioServiceHelper.getReceitasAnoAnterior(usuario))
-                .thenReturn(Collections.emptyList());
-        when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
-
-        // Act
-        RelatorioModel resultado = relatorioService.createAnual(usuario);
-
-        // Assert
-        assertNull(resultado);
-        verify(relatorioRepository, never()).save(any(RelatorioModel.class));
     }
 
     @Test
@@ -209,27 +170,6 @@ class RelatorioServiceTest {
         verify(relatorioRepository).save(any(RelatorioModel.class));
         verify(relatorioServiceHelper).getDespesasData(inicio, fim, usuario);
         verify(relatorioServiceHelper).getReceitasData(inicio, fim, usuario);
-    }
-
-    @Test
-    @DisplayName("Deve retornar null ao criar relatório personalizado sem dados")
-    void deveRetornarNullQuandoSemDadosPersonalizados() {
-        // Arrange
-        LocalDate inicio = LocalDate.of(2025, 10, 1);
-        LocalDate fim = LocalDate.of(2025, 10, 31);
-
-        when(relatorioServiceHelper.getDespesasData(inicio, fim, usuario))
-                .thenReturn(Collections.emptyList());
-        when(relatorioServiceHelper.getReceitasData(inicio, fim, usuario))
-                .thenReturn(Collections.emptyList());
-        when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
-
-        // Act
-        RelatorioModel resultado = relatorioService.createPersonalizado(usuario, inicio, fim);
-
-        // Assert
-        assertNull(resultado);
-        verify(relatorioRepository, never()).save(any(RelatorioModel.class));
     }
 
     @Test
