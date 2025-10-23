@@ -159,9 +159,9 @@ public class ReceitasService {
      * @return Lista de receitas dentro do intervalo especificado
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public List<ReceitasModel> findByDataBetween(LocalDate start, LocalDate end, UsuarioModel usuario) {
-        return receitasRepository.findByDataBetween(start, end, usuario);
+        return receitasRepository.findByDataBetweenAndUsuario(start, end, usuario);
     }
 }

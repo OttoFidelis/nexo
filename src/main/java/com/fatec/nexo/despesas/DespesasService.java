@@ -155,9 +155,9 @@ public class DespesasService {
      * @return Lista de despesas dentro do intervalo especificado
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public List<DespesasModel> findByDataBetween(LocalDate start, LocalDate end, UsuarioModel usuario) {
-        return despesasRepository.findByDataBetween(start, end, usuario);
+        return despesasRepository.findByDataBetweenAndUsuario(start, end, usuario);
     }
 }

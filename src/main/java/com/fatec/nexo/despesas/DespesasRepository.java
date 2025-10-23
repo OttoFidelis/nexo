@@ -17,16 +17,16 @@ import com.fatec.nexo.usuario.UsuarioModel;
 @Repository
 public interface DespesasRepository extends JpaRepository<DespesasModel, Integer> {
     /**
-     * Busca despesas dentro de um intervalo de datas
+     * Busca despesas dentro de um intervalo de datas para um usuário específico
      * @param start Data inicial do intervalo
      * @param end Data final do intervalo
      * @param usuario Usuário associado às despesas
      * @return Lista de despesas dentro do intervalo especificado
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
-    List<DespesasModel> findByDataBetween(LocalDate start, LocalDate end, UsuarioModel usuario);
+    List<DespesasModel> findByDataBetweenAndUsuario(LocalDate start, LocalDate end, UsuarioModel usuario);
     /**
      * Busca despesas associadas a um usuário específico
      * @param usuario Usuário cujas despesas serão buscadas

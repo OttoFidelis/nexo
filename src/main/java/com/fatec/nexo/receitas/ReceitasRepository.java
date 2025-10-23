@@ -17,16 +17,16 @@ import com.fatec.nexo.usuario.UsuarioModel;
 @Repository
 public interface ReceitasRepository extends JpaRepository<ReceitasModel, Integer> {
     /**
-     * Busca receitas dentro de um intervalo de datas
+     * Busca receitas dentro de um intervalo de datas para um usuário específico
      * @param start Data inicial do intervalo
      * @param end Data final do intervalo
      * @param usuario Usuário associado às receitas
      * @return Lista de receitas dentro do intervalo especificado
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
-    List<ReceitasModel> findByDataBetween(LocalDate start, LocalDate end, UsuarioModel usuario);
+    List<ReceitasModel> findByDataBetweenAndUsuario(LocalDate start, LocalDate end, UsuarioModel usuario);
     /**
      * Busca receitas associadas a um usuário específico
      * @param usuario Usuário cujas receitas serão buscadas

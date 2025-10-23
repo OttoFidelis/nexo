@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -68,6 +69,7 @@ public class SaldoModel {
      * @since 1.0
      * @version 1.0
      */
+    @ManyToOne
     private UsuarioModel usuario;
 
     /**
