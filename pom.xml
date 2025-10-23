@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.fatec</groupId>
 	<artifactId>nexo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>nexo</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -30,12 +30,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<distributionManagement>
-  <repository>
-    <id>github</id>
-    <name>GitHub OWNER Apache Packages</name>
-    <url>https://maven.pkg.github.com/OWNER/REPO</url>
-  </repository>
-</distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub OttoFidelis Packages</name>
+			<url>https://maven.pkg.github.com/OttoFidelis/nexo</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
