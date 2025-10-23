@@ -66,6 +66,7 @@ class RelatorioServiceTest {
         usuario = new UsuarioModel();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@example.com");
+        usuario.setSenha("senha123");
 
         despesa = new DespesasModel();
         despesa.setDescricao("Almoço");
@@ -322,6 +323,7 @@ class RelatorioServiceTest {
         usuario = new UsuarioModel();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@example.com");
+        usuario.setSenha("senha123");
         // Arrange
         when(relatorioRepository.findById(1)).thenReturn(Optional.of(relatorioValido));
         doNothing().when(relatorioRepository).deleteById(1);
