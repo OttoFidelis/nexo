@@ -295,6 +295,7 @@ class RelatorioServiceTest {
         // Act
         RelatorioModel resultado = relatorioService.createMensal(usuario);
 
+        
         // Assert
         assertNotNull(resultado);
         assertEquals("Mensal", resultado.getTipo());
