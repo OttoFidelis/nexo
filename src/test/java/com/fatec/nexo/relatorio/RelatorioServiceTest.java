@@ -1,28 +1,36 @@
 package com.fatec.nexo.relatorio;
 
-import com.fatec.nexo.despesas.DespesasModel;
-import com.fatec.nexo.receitas.ReceitasModel;
-import com.fatec.nexo.relatorio.exceptions.RelatorioNotFoundException;
-import com.fatec.nexo.saldo.SaldoModel;
-import com.fatec.nexo.saldo.SaldoService;
-import com.fatec.nexo.usuario.UsuarioModel;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.fatec.nexo.despesas.DespesasModel;
+import com.fatec.nexo.receitas.ReceitasModel;
+import com.fatec.nexo.relatorio.exceptions.RelatorioNotFoundException;
+import com.fatec.nexo.saldo.SaldoModel;
+import com.fatec.nexo.saldo.SaldoService;
+import com.fatec.nexo.usuario.UsuarioModel;
 
 /**
  * Testes unitários para o serviço de Relatórios.
@@ -76,10 +84,9 @@ class RelatorioServiceTest {
         saldo.setUsuario(usuario);
 
         relatorioValido = new RelatorioModel(
-            Arrays.asList(despesa),
-            Arrays.asList(receita),
-            5000.00
-        );
+                Arrays.asList(despesa),
+                Arrays.asList(receita),
+                5000.00);
         relatorioValido.setId(1);
         relatorioValido.setTipo("Mensal");
     }
@@ -89,9 +96,9 @@ class RelatorioServiceTest {
     void deveCriarRelatorioMensal() {
         // Arrange
         when(relatorioServiceHelper.getDespesasMesAnterior(usuario))
-            .thenReturn(Arrays.asList(despesa));
+                .thenReturn(Arrays.asList(despesa));
         when(relatorioServiceHelper.getReceitasMesAnterior(usuario))
-            .thenReturn(Arrays.asList(receita));
+                .thenReturn(Arrays.asList(receita));
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
         when(relatorioRepository.save(any(RelatorioModel.class))).thenReturn(relatorioValido);
 
@@ -110,9 +117,9 @@ class RelatorioServiceTest {
     void deveCriarRelatorioSemanal() {
         // Arrange
         when(relatorioServiceHelper.getDespesasSemanaAnterior(usuario))
-            .thenReturn(Arrays.asList(despesa));
+                .thenReturn(Arrays.asList(despesa));
         when(relatorioServiceHelper.getReceitasSemanaAnterior(usuario))
-            .thenReturn(Arrays.asList(receita));
+                .thenReturn(Arrays.asList(receita));
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
         when(relatorioRepository.save(any(RelatorioModel.class))).thenReturn(relatorioValido);
 
@@ -129,9 +136,9 @@ class RelatorioServiceTest {
     void deveRetornarNullQuandoSemDadosSemanais() {
         // Arrange
         when(relatorioServiceHelper.getDespesasSemanaAnterior(usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(relatorioServiceHelper.getReceitasSemanaAnterior(usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
 
         // Act
@@ -147,9 +154,9 @@ class RelatorioServiceTest {
     void deveCriarRelatorioAnual() {
         // Arrange
         when(relatorioServiceHelper.getDespesasAnoAnterior(usuario))
-            .thenReturn(Arrays.asList(despesa));
+                .thenReturn(Arrays.asList(despesa));
         when(relatorioServiceHelper.getReceitasAnoAnterior(usuario))
-            .thenReturn(Arrays.asList(receita));
+                .thenReturn(Arrays.asList(receita));
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
         when(relatorioRepository.save(any(RelatorioModel.class))).thenReturn(relatorioValido);
 
@@ -166,9 +173,9 @@ class RelatorioServiceTest {
     void deveRetornarNullQuandoSemDadosAnuais() {
         // Arrange
         when(relatorioServiceHelper.getDespesasAnoAnterior(usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(relatorioServiceHelper.getReceitasAnoAnterior(usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
 
         // Act
@@ -187,9 +194,9 @@ class RelatorioServiceTest {
         LocalDate fim = LocalDate.of(2025, 10, 31);
 
         when(relatorioServiceHelper.getDespesasData(inicio, fim, usuario))
-            .thenReturn(Arrays.asList(despesa));
+                .thenReturn(Arrays.asList(despesa));
         when(relatorioServiceHelper.getReceitasData(inicio, fim, usuario))
-            .thenReturn(Arrays.asList(receita));
+                .thenReturn(Arrays.asList(receita));
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
         when(relatorioRepository.save(any(RelatorioModel.class))).thenReturn(relatorioValido);
 
@@ -211,9 +218,9 @@ class RelatorioServiceTest {
         LocalDate fim = LocalDate.of(2025, 10, 31);
 
         when(relatorioServiceHelper.getDespesasData(inicio, fim, usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(relatorioServiceHelper.getReceitasData(inicio, fim, usuario))
-            .thenReturn(Collections.emptyList());
+                .thenReturn(Collections.emptyList());
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
 
         // Act
@@ -271,10 +278,9 @@ class RelatorioServiceTest {
     void deveAtualizarFormatoRelatorio() {
         // Arrange
         RelatorioModel relatorioAtualizado = new RelatorioModel(
-            Arrays.asList(despesa),
-            Arrays.asList(receita),
-            5000.00
-        );
+                Arrays.asList(despesa),
+                Arrays.asList(receita),
+                5000.00);
         relatorioAtualizado.setFormato("Pizza");
 
         when(relatorioRepository.findById(1)).thenReturn(Optional.of(relatorioValido));
@@ -293,10 +299,9 @@ class RelatorioServiceTest {
     void deveListarTodosRelatorios() {
         // Arrange
         RelatorioModel relatorio2 = new RelatorioModel(
-            Arrays.asList(despesa),
-            Arrays.asList(receita),
-            4500.00
-        );
+                Arrays.asList(despesa),
+                Arrays.asList(receita),
+                4500.00);
         relatorio2.setTipo("Semanal");
 
         List<RelatorioModel> relatorios = Arrays.asList(relatorioValido, relatorio2);
@@ -336,9 +341,9 @@ class RelatorioServiceTest {
         receita2.setUsuario(usuario);
 
         when(relatorioServiceHelper.getDespesasMesAnterior(usuario))
-            .thenReturn(Arrays.asList(despesa, despesa2));
+                .thenReturn(Arrays.asList(despesa, despesa2));
         when(relatorioServiceHelper.getReceitasMesAnterior(usuario))
-            .thenReturn(Arrays.asList(receita, receita2));
+                .thenReturn(Arrays.asList(receita, receita2));
         when(saldoService.findLastSaldo(usuario)).thenReturn(saldo);
         when(relatorioRepository.save(any(RelatorioModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
