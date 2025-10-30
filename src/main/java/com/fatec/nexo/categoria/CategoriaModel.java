@@ -1,9 +1,12 @@
 package com.fatec.nexo.categoria;
 
+import com.fatec.nexo.usuario.UsuarioModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -11,7 +14,7 @@ import lombok.Data;
  * Modelo que representa uma categoria no sistema
     * @author Otto Fidelis
     * @since 1.0
-    * @version 1.0
+    * @version 1.1
  */
 @Table(name = "Categoria")
 @Entity
@@ -47,6 +50,17 @@ public class CategoriaModel {
      * @since 1.0
      * @version 1.0
      */ 
+
+
+    /**
+     * Usuário proprietário da categoria
+     * @author Otto Fidelis
+     * @since 1.1
+     * @version 1.0
+     */
+    @ManyToOne
+    private UsuarioModel usuario;
+
     public CategoriaModel() {
     }
 }

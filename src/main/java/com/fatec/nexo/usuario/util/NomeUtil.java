@@ -1,4 +1,4 @@
-package com.fatec.nexo.usuario.classes;
+package com.fatec.nexo.usuario.util;
 
 /**
  * Classe para validar o nome do usuário
@@ -6,7 +6,7 @@ package com.fatec.nexo.usuario.classes;
  * @since 1.0
  * @version 1.0
  */
-public class Nome {
+public class NomeUtil {
     /**
      * Nome do usuário
      * @author Otto Fidelis
@@ -21,7 +21,7 @@ public class Nome {
      * @since 1.0
      * @version 1.0
      */
-    public Nome() {
+    public NomeUtil() {
     }
 
     /**

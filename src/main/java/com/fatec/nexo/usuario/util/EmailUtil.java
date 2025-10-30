@@ -1,4 +1,4 @@
-package com.fatec.nexo.usuario.classes;
+package com.fatec.nexo.usuario.util;
 
 /**
  * Classe que representa um email e valida seu formato.
@@ -6,7 +6,7 @@ package com.fatec.nexo.usuario.classes;
  * @since 1.0
  * @version 1.0
  */
-public class Email {
+public class EmailUtil {
     /**
      * O email do usuário.
      * @author Otto Fidelis
@@ -22,7 +22,7 @@ public class Email {
      * @version 1.0
      */
     
-    public Email() {
+    public EmailUtil() {
     }
 
     /**

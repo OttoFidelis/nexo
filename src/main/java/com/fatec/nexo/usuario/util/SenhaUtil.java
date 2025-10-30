@@ -1,4 +1,4 @@
-package com.fatec.nexo.usuario.classes;
+package com.fatec.nexo.usuario.util;
 
 import java.util.Base64;
 
@@ -8,7 +8,7 @@ import java.util.Base64;
  * @since 1.0
  * @version 1.0.1
  */
-public class Senha {
+public class SenhaUtil {
     /**
      * Senha do usuário
      * @author Otto Fidelis
@@ -23,7 +23,7 @@ public class Senha {
      * @since 1.0
      * @version 1.0
      */
-    public Senha() {
+    public SenhaUtil() {
     }
 
     /**
@@ -52,7 +52,7 @@ public class Senha {
      * @since 1.0
      * @version 1.0
     */
-     private String encrypt(String senha) {
+     private static String encrypt(String senha) {
         return Base64.getEncoder().encodeToString(senha.getBytes());
     }
 
@@ -64,7 +64,7 @@ public class Senha {
      * @since 1.0
      * @version 1.0
     */
-    public String desencriptar(String senhaEncriptada) {
+    public static String desencriptar(String senhaEncriptada) {
         return new String(Base64.getDecoder().decode(senhaEncriptada));
     }
 }

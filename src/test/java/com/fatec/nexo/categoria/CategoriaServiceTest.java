@@ -1,21 +1,28 @@
 package com.fatec.nexo.categoria;
 
-import com.fatec.nexo.categoria.exceptions.CategoriaNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.fatec.nexo.categoria.exceptions.CategoriaNotFoundException;
+import com.fatec.nexo.usuario.UsuarioModel;
 
 /**
  * Testes unitários para o serviço de Categorias.
@@ -23,7 +30,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testes do CategoriaService")
@@ -43,6 +50,13 @@ class CategoriaServiceTest {
         categoriaValida.setId(1);
         categoriaValida.setNome("Alimentação");
         categoriaValida.setDescricao("Gastos com comida e restaurantes");
+
+        UsuarioModel usuarioValido = new UsuarioModel();
+        usuarioValido.setEmail("fualno@gmail.com");
+        usuarioValido.setNome("Fulano de Tal");
+        usuarioValido.setSenha("senha123");
+
+        categoriaValida.setUsuario(usuarioValido);
     }
 
     @Test
@@ -61,18 +75,87 @@ class CategoriaServiceTest {
     }
 
     @Test
+    @DisplayName("Deve lançar exceção ao tentar acessar a categoria de outro usuário")
+    void deveLancarExcecaoAoAcessarCategoriaDeOutroUsuario(){
+        //Arrange
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
+        UsuarioModel usuario1 = new UsuarioModel();
+        usuario1.setEmail("bandido@gmail.com");
+        usuario1.setNome("Bandido da Silva");
+        usuario1.setSenha("senha456");
+
+        //act & assert
+        assertThrows(SecurityException.class, ()->{
+            categoriaService.findById(1, usuario1);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao tentar editar a categoria de outro usuário")
+    void deveLancarExcecaoAoEditarCategoriaDeOutroUsuario(){
+        //Arrange
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
+        UsuarioModel usuario1 = new UsuarioModel();
+        usuario1.setEmail("bandido@gmail.com");
+        usuario1.setNome("Bandido da Silva");
+        usuario1.setSenha("senha456");
+
+        CategoriaModel categoriaAtualizada = new CategoriaModel();
+        categoriaAtualizada.setNome("Transporte");
+        categoriaAtualizada.setDescricao("Gastos com uber e combustível");
+
+        when(categoriaRepository.save(any(CategoriaModel.class))).thenReturn(categoriaAtualizada);
+        //act & assert
+        assertThrows(SecurityException.class, ()->{
+            categoriaService.update(1, categoriaAtualizada, usuario1);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao tentar excluir a categoria de outro usuário")
+    void deveLancarExcecaoAoExcluirCategoriaDeOutroUsuario(){
+        //Arrange
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
+        doNothing().when(categoriaRepository).deleteById(1);
+        UsuarioModel usuario1 = new UsuarioModel();
+        usuario1.setEmail("bandido@gmail.com");
+        usuario1.setNome("Bandido da Silva");
+        usuario1.setSenha("senha456");
+
+        //act & assert
+        assertThrows(SecurityException.class, ()->{
+            categoriaService.deleteCategoria(1, usuario1);
+        });
+
+    }
+
+    @Test
     @DisplayName("Deve buscar categoria por ID existente")
     void deveBuscarCategoriaPorId() {
         // Arrange
         when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
+        UsuarioModel usuarioValido = new UsuarioModel();
+        usuarioValido.setEmail("fualno@gmail.com");
+        usuarioValido.setNome("Fulano de Tal");
+        usuarioValido.setSenha("senha123");
 
         // Act
-        CategoriaModel resultado = categoriaService.findById(1);
+        CategoriaModel resultado = categoriaService.findById(1, usuarioValido);
 
         // Assert
         assertNotNull(resultado);
         assertEquals(1, resultado.getId());
         assertEquals("Alimentação", resultado.getNome());
+        assertEquals(usuarioValido.getEmail(), resultado.getUsuario().getEmail());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao buscar categoria de outro usuário")
+    void deveLancarExcecaoAoBuscarCategoriaDeOutroUsuario(){
+        //Arrange
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
     }
 
     @Test
@@ -80,10 +163,14 @@ class CategoriaServiceTest {
     void deveLancarExcecaoAoBuscarCategoriaInexistente() {
         // Arrange
         when(categoriaRepository.findById(999)).thenReturn(Optional.empty());
+        UsuarioModel usuarioValido = new UsuarioModel();
+        usuarioValido.setEmail("fualno@gmail.com");
+        usuarioValido.setNome("Fulano de Tal");
+        usuarioValido.setSenha("senha123");
 
         // Act & Assert
         assertThrows(CategoriaNotFoundException.class, () -> {
-            categoriaService.findById(999);
+            categoriaService.findById(999, usuarioValido);
         });
     }
 
@@ -94,12 +181,16 @@ class CategoriaServiceTest {
         CategoriaModel categoriaAtualizada = new CategoriaModel();
         categoriaAtualizada.setNome("Transporte");
         categoriaAtualizada.setDescricao("Gastos com uber e combustível");
+        UsuarioModel usuarioValido = new UsuarioModel();
+        usuarioValido.setEmail("fualno@gmail.com");
+        usuarioValido.setNome("Fulano de Tal");
+        usuarioValido.setSenha("senha123");
 
         when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
         when(categoriaRepository.save(any(CategoriaModel.class))).thenReturn(categoriaAtualizada);
 
         // Act
-        CategoriaModel resultado = categoriaService.update(1, categoriaAtualizada);
+        CategoriaModel resultado = categoriaService.update(1, categoriaAtualizada, usuarioValido);
 
         // Assert
         assertNotNull(resultado);
@@ -113,9 +204,13 @@ class CategoriaServiceTest {
         // Arrange
         when(categoriaRepository.existsById(1)).thenReturn(true);
         doNothing().when(categoriaRepository).deleteById(1);
+        UsuarioModel usuarioValido = new UsuarioModel();
+        usuarioValido.setEmail("fualno@gmail.com");
+        usuarioValido.setNome("Fulano de Tal");
+        usuarioValido.setSenha("senha123");
 
         // Act
-        assertDoesNotThrow(() -> categoriaService.deleteCategoria(1));
+        assertDoesNotThrow(() -> categoriaService.deleteCategoria(1, usuarioValido));
 
         // Assert
         verify(categoriaRepository, times(1)).deleteById(1);

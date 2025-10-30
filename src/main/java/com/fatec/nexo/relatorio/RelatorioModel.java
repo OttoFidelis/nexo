@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.fatec.nexo.despesas.DespesasModel;
 import com.fatec.nexo.receitas.ReceitasModel;
-import com.fatec.nexo.relatorio.classes.DataInicio;
-import com.fatec.nexo.relatorio.classes.TotalDespesas;
-import com.fatec.nexo.relatorio.classes.TotalReceitas;
+import com.fatec.nexo.relatorio.util.DataInicioUtil;
+import com.fatec.nexo.relatorio.util.TotalDespesasUtil;
+import com.fatec.nexo.relatorio.util.TotalReceitasUtil;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -144,9 +144,9 @@ public class RelatorioModel {
         this.formato = "Barras";
         this.despesas = despesas;
         this.receitas = receitas;
-        this.totalReceitas = new TotalReceitas().getTotalReceitas(this.receitas);
-        this.totalDespesas = new TotalDespesas().getTotalDespesas(this.despesas);
-        this.dataInicio = new DataInicio().getDataInicio(this.despesas, this.receitas);
+        this.totalReceitas = TotalReceitasUtil.getTotalReceitas(this.receitas);
+        this.totalDespesas = TotalDespesasUtil.getTotalDespesas(this.despesas);
+        this.dataInicio = DataInicioUtil.getDataInicio(this.despesas, this.receitas);
         this.dataFim = LocalDate.now();
     }
     

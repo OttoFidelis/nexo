@@ -1,4 +1,4 @@
-package com.fatec.nexo.relatorio.classes;
+package com.fatec.nexo.relatorio.util;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.fatec.nexo.receitas.ReceitasModel;
  * @since 1.0
  * @version 1.0
  */
-public class DataInicio {
+public final class DataInicioUtil {
     /**
      * Retorna a data da primeira despesa ou receita, o que ocorrer primeiro
      * @param despesas Lista de despesas do usuário
@@ -22,7 +22,7 @@ public class DataInicio {
      * @since 1.0
      * @version 1.0
      */
-    public LocalDate getDataInicio(List<DespesasModel> despesas, List<ReceitasModel> receitas) {
+    public static LocalDate getDataInicio(List<DespesasModel> despesas, List<ReceitasModel> receitas) {
         LocalDate dataPrimeiraDespesa=null;
         LocalDate dataPrimeiraReceita=null;
         for(int i = 0; i < despesas.size(); i++) {

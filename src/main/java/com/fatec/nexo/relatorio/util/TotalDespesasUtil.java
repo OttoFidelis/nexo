@@ -1,4 +1,4 @@
-package com.fatec.nexo.relatorio.classes;
+package com.fatec.nexo.relatorio.util;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.fatec.nexo.despesas.DespesasModel;
  * @since 1.0
  * @version 1.0
  */
-public class TotalDespesas {
+public class TotalDespesasUtil {
     /**
      * Calcula o total de despesas em uma lista de despesas
      * @param despesas Lista de despesas do usuário
@@ -20,7 +20,7 @@ public class TotalDespesas {
      * @since 1.0
      * @version 1.0
      */
-    public double getTotalDespesas(List<DespesasModel> despesas) {
+    public static double getTotalDespesas(List<DespesasModel> despesas) {
         BigDecimal valorDespesas = BigDecimal.valueOf(0.00);
         for(int i = 0; i < despesas.size(); i++) {
             valorDespesas = valorDespesas.add(BigDecimal.valueOf(despesas.get(i).getQuantia()));

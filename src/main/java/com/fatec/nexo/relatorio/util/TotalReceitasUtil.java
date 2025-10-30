@@ -1,4 +1,4 @@
-package com.fatec.nexo.relatorio.classes;
+package com.fatec.nexo.relatorio.util;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.fatec.nexo.receitas.ReceitasModel;
  * @since 1.0
  * @version 1.0
  */
-public class TotalReceitas {
+public class TotalReceitasUtil {
     /**
      * Calcula o total de receitas em uma lista de receitas
      * @param receitas Lista de receitas do usuário
@@ -20,7 +20,7 @@ public class TotalReceitas {
      * @since 1.0
      * @version 1.0
      */
-    public double getTotalReceitas(List<ReceitasModel> receitas) {
+    public static double getTotalReceitas(List<ReceitasModel> receitas) {
         BigDecimal valorReceitas = BigDecimal.valueOf(0.00);
         for(int i = 0; i < receitas.size(); i++) {  
             valorReceitas = valorReceitas.add(BigDecimal.valueOf(receitas.get(i).getQuantia()));

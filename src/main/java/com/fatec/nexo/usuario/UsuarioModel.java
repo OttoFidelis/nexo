@@ -1,8 +1,8 @@
 package com.fatec.nexo.usuario;
 
-import com.fatec.nexo.usuario.classes.Email;
-import com.fatec.nexo.usuario.classes.Nome;
-import com.fatec.nexo.usuario.classes.Senha;
+import com.fatec.nexo.usuario.util.EmailUtil;
+import com.fatec.nexo.usuario.util.NomeUtil;
+import com.fatec.nexo.usuario.util.SenhaUtil;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,9 +68,9 @@ public class UsuarioModel {
      * @version 1.0
      */
     public UsuarioModel(String email, String nome, String senha) {
-        this.email = new Email().setEmail(email);
-        this.nome = new Nome().setNome(nome);
-        this.senha = new Senha().setSenha(senha);
+        this.email = new EmailUtil().setEmail(email);
+        this.nome = new NomeUtil().setNome(nome);
+        this.senha = new SenhaUtil().setSenha(senha);
     }
 
     /**
@@ -81,7 +81,7 @@ public class UsuarioModel {
      * @version 1.0
      */
     public void setNome(String nome) {
-        this.nome = new Nome().setNome(nome);
+        this.nome = new NomeUtil().setNome(nome);
     }
     
     /**
@@ -92,7 +92,7 @@ public class UsuarioModel {
      * @version 1.0
      */
     public void setEmail(String email) {
-        this.email = new Email().setEmail(email);
+        this.email = new EmailUtil().setEmail(email);
     }
 
     /**
@@ -103,7 +103,7 @@ public class UsuarioModel {
      * @version 1.0
      */
     public String getSenha() {
-        return new Senha().desencriptar(this.senha);
+        return SenhaUtil.desencriptar(this.senha);
     }
 
     /**
@@ -114,6 +114,6 @@ public class UsuarioModel {
      * @version 1.0
      */
     public void setSenha(String senha) {
-        this.senha = new Senha().setSenha(senha);
+        this.senha = new SenhaUtil().setSenha(senha);
     }
 }
