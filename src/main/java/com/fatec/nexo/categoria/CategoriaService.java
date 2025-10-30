@@ -84,16 +84,20 @@ public class CategoriaService {
      * @param usuario O usuário que está solicitando a categoria
      * @return A categoria encontrada
      * @throws CategoriaNotFoundException se não encontrar a categoria com o ID especificado
+     * @throws SecurityException se o usuário tentar acessar categoria de outro usuário
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.1.1
+     * @version 1.2
      */
     public CategoriaModel findById(Integer id, UsuarioModel usuario) {
-        if(usuario.getEmail().equals(categoriaRepository.findById(id).get().getUsuario().getEmail())){
-            return categoriaRepository.findById(id)
-            .orElseThrow(()-> new CategoriaNotFoundException(id));
+        CategoriaModel categoria = categoriaRepository.findById(id)
+            .orElseThrow(() -> new CategoriaNotFoundException(id));
+        
+        if (!usuario.getEmail().equals(categoria.getUsuario().getEmail())) {
+            throw new SecurityException("Acesso negado! Você não pode acessar a categoria de outro usuário.");
         }
-        throw new SecurityException("Acesso negado! Você não pode acessar a categoria de outro usuário.");
+        
+        return categoria;
     }
 
     /**

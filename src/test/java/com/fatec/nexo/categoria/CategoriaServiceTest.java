@@ -85,10 +85,11 @@ class CategoriaServiceTest {
         usuario1.setSenha("senha456");
 
         //act & assert
-        assertThrows(SecurityException.class, ()->{
+        SecurityException exception = assertThrows(SecurityException.class, ()->{
             categoriaService.findById(1, usuario1);
         });
-
+        
+        assertNotNull(exception);
     }
 
     @Test
@@ -105,12 +106,12 @@ class CategoriaServiceTest {
         categoriaAtualizada.setNome("Transporte");
         categoriaAtualizada.setDescricao("Gastos com uber e combustível");
 
-        when(categoriaRepository.save(any(CategoriaModel.class))).thenReturn(categoriaAtualizada);
         //act & assert
-        assertThrows(SecurityException.class, ()->{
+        SecurityException exception = assertThrows(SecurityException.class, ()->{
             categoriaService.update(1, categoriaAtualizada, usuario1);
         });
-
+        
+        assertNotNull(exception);
     }
 
     @Test
@@ -118,17 +119,17 @@ class CategoriaServiceTest {
     void deveLancarExcecaoAoExcluirCategoriaDeOutroUsuario(){
         //Arrange
         when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
-        doNothing().when(categoriaRepository).deleteById(1);
         UsuarioModel usuario1 = new UsuarioModel();
         usuario1.setEmail("bandido@gmail.com");
         usuario1.setNome("Bandido da Silva");
         usuario1.setSenha("senha456");
 
         //act & assert
-        assertThrows(SecurityException.class, ()->{
+        SecurityException exception = assertThrows(SecurityException.class, ()->{
             categoriaService.deleteCategoria(1, usuario1);
         });
-
+        
+        assertNotNull(exception);
     }
 
     @Test
@@ -152,13 +153,6 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar exceção ao buscar categoria de outro usuário")
-    void deveLancarExcecaoAoBuscarCategoriaDeOutroUsuario(){
-        //Arrange
-        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
-    }
-
-    @Test
     @DisplayName("Deve lançar exceção ao buscar categoria inexistente")
     void deveLancarExcecaoAoBuscarCategoriaInexistente() {
         // Arrange
@@ -169,9 +163,11 @@ class CategoriaServiceTest {
         usuarioValido.setSenha("senha123");
 
         // Act & Assert
-        assertThrows(CategoriaNotFoundException.class, () -> {
+        CategoriaNotFoundException exception = assertThrows(CategoriaNotFoundException.class, () -> {
             categoriaService.findById(999, usuarioValido);
         });
+        
+        assertNotNull(exception);
     }
 
     @Test
@@ -202,7 +198,7 @@ class CategoriaServiceTest {
     @DisplayName("Deve deletar categoria existente")
     void deveDeletarCategoria() {
         // Arrange
-        when(categoriaRepository.existsById(1)).thenReturn(true);
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaValida));
         doNothing().when(categoriaRepository).deleteById(1);
         UsuarioModel usuarioValido = new UsuarioModel();
         usuarioValido.setEmail("fualno@gmail.com");
