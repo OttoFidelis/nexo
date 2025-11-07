@@ -153,7 +153,7 @@ class CategoriaServiceTest {
         assertNotNull(resultado);
         assertEquals(1, resultado.getId());
         assertEquals("Alimentação", resultado.getNome());
-        assertEquals(usuarioValido.getEmail(), resultado.getUsuario().getEmail());
+        assertEquals(usuarioValido.getEmail(), resultado.getSaldo().getUsuario().getEmail());
     }
 
     @Test
