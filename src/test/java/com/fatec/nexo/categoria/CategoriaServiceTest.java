@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.fatec.nexo.categoria.exceptions.CategoriaNotFoundException;
+import com.fatec.nexo.saldo.SaldoModel;
 import com.fatec.nexo.usuario.UsuarioModel;
 
 /**
@@ -56,7 +57,10 @@ class CategoriaServiceTest {
         usuarioValido.setNome("Fulano de Tal");
         usuarioValido.setSenha("senha123");
 
-        categoriaValida.setUsuario(usuarioValido);
+        SaldoModel saldoValido = new SaldoModel();
+        saldoValido.setUsuario(usuarioValido);
+        
+        categoriaValida.setSaldo(saldoValido); 
     }
 
     @Test

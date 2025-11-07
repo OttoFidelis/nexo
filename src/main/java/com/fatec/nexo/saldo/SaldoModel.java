@@ -2,6 +2,7 @@ package com.fatec.nexo.saldo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fatec.nexo.categoria.CategoriaModel;
@@ -25,7 +26,7 @@ import lombok.Data;
  * 
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 @Table(name = "Saldo")
 @Entity
@@ -78,10 +79,9 @@ public class SaldoModel {
      * 
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
-    @OneToMany
-    @JoinTable(name = "Saldo_categorias_Possui", joinColumns = @JoinColumn(name = "saldo_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    @OneToMany(mappedBy = "saldo", orphanRemoval = true)
     private List<CategoriaModel> categorias;
 
     /**
@@ -94,6 +94,7 @@ public class SaldoModel {
     public SaldoModel() {
         this.data = LocalDate.now();
         this.quantia = 0;
+        this.categorias = new ArrayList<>();
     }
 
     /**

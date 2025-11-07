@@ -93,7 +93,7 @@ public class CategoriaService {
         CategoriaModel categoria = categoriaRepository.findById(id)
             .orElseThrow(() -> new CategoriaNotFoundException(id));
         
-        if (!usuario.getEmail().equals(categoria.getUsuario().getEmail())) {
+        if (!usuario.getEmail().equals(categoria.getSaldo().getUsuario().getEmail())) {
             throw new SecurityException("Acesso negado! Você não pode acessar a categoria de outro usuário.");
         }
         

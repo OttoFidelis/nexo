@@ -1,5 +1,6 @@
 package com.fatec.nexo.categoria;
 
+import com.fatec.nexo.saldo.SaldoModel;
 import com.fatec.nexo.usuario.UsuarioModel;
 
 import jakarta.persistence.Entity;
@@ -45,21 +46,13 @@ public class CategoriaModel {
     private String descricao;
 
     /**
-     * Construtor padrão
-     * @author Otto Fidelis
-     * @since 1.0
-     * @version 1.0
-     */ 
-
-
-    /**
-     * Usuário proprietário da categoria
+     * Saldo associado à categoria
      * @author Otto Fidelis
      * @since 1.1
      * @version 1.0
      */
     @ManyToOne
-    private UsuarioModel usuario;
+    private SaldoModel saldo;
 
     public CategoriaModel() {
     }
