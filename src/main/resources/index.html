@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Nexo - Login</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <h2 id="form-title">Entrar</h2>
+
+    <!-- Form Login -->
+    <form id="login-form" th:action="@{/nexo/login}" method="post">
+      <label>Email</label>
+      <input type="email" id="login-email" required th:value="${email}">
+
+      <label>Senha</label>
+      <input type="password" id="login-password" required th:value="${senha}">
+
+      <button class="btn" type="submit">Entrar</button>
+
+      <p class="muted">Não possui conta? <a id="show-register" href="#">Cadastrar</a></p>
+    </form>
+
+    <!-- Form Registro -->
+    <form id="register-form" class="hidden" th:action="@{/nexo/login}" method="post">
+      <label>Nome</label>
+      <input type="text" id="reg-name" required th:value="${nome}">
+
+      <label>Email</label>
+      <input type="email" id="reg-email" required>
+
+      <label>Senha</label>
+      <input type="password" id="reg-password" required th:value="${senha}">
+
+      <button class="btn" type="submit">Registrar</button>
+
+      <p class="muted">Já possui conta? <a id="show-login" href="#">Entrar</a></p>
+    </form>
+
+    <p id="message" class="message"></p>
+  </div>
+</div>
+
+<script th:src="@{/js/auth.js}"></script>
+</body>
+</html>

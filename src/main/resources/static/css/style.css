@@ -1,0 +1,29 @@
+body {
+  margin:0; font-family: Arial, sans-serif; background:#f2f4f7;
+}
+
+.container {
+  max-width:400px; margin:80px auto; padding:20px;
+}
+
+.card {
+  background:#fff; padding:25px; border-radius:10px;
+  box-shadow:0 5px 18px rgba(0,0,0,0.08);
+}
+
+label { font-size:0.9rem; margin-top:10px; display:block; }
+input {
+  width:100%; padding:10px; margin-top:4px;
+  border:1px solid #ddd; border-radius:8px;
+}
+
+.btn {
+  width:100%; padding:10px; margin-top:15px;
+  border:none; background:#2b6cb0; color:white; border-radius:8px; cursor:pointer;
+}
+.btn.small { width:auto; }
+
+.hidden { display:none; }
+.muted { color:#777; font-size:0.9rem; }
+.message { margin-top:10px; color:red; text-align:center; }
+.header { display:flex; justify-content:space-between; padding:15px; background:#2b6cb0; color:white; }

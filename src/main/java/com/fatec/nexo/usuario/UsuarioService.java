@@ -1,5 +1,7 @@
 package com.fatec.nexo.usuario;
 
+import java.util.Base64;
+
 import org.springframework.stereotype.Service;
 
 import com.fatec.nexo.usuario.exceptions.UsuarioNotFoundException;
@@ -8,7 +10,7 @@ import com.fatec.nexo.usuario.exceptions.UsuarioNotFoundException;
  * Serviço responsável pelo gerenciamento de usuários
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 @Service
 public class UsuarioService {
@@ -104,5 +106,22 @@ public class UsuarioService {
         UsuarioModel _usuario = findById(email, usuario);
         _usuario.setSenha(usuario.getSenha());
         return usuarioRepository.save(usuario);
+    }
+
+    /**
+     * Realiza o login de um usuário com email e senha
+     * @param email O email do usuário
+     * @param senha A senha do usuário
+     * @return O usuário autenticado
+     * @throws UsuarioNotFoundException se o email ou senha estiverem incorretos
+     * @author Otto Fidelis
+     * @since 1.1
+     * @version 1.0
+     */
+    public UsuarioModel login(String email, String senha) {
+        if(usuarioRepository.findByEmailAndSenha(email, Base64.getEncoder().encodeToString(senha.getBytes())).isPresent()) {
+            return usuarioRepository.findByEmailAndSenha(email, Base64.getEncoder().encodeToString(senha.getBytes())).get();
+        }
+        else throw new UsuarioNotFoundException(email, senha);
     }
 }

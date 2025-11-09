@@ -5,7 +5,7 @@ package com.fatec.nexo.usuario.exceptions;
  * Estende RuntimeException para indicar um erro em tempo de execução.
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public class UsuarioNotFoundException extends RuntimeException {
     /**
@@ -17,5 +17,8 @@ public class UsuarioNotFoundException extends RuntimeException {
      */
     public UsuarioNotFoundException(String email) {
         super("Usuário não encontrado! Email inválido: " + email);
+    }
+    public UsuarioNotFoundException(String email, String senha) {
+        super("Erro ao entrar na sua conta!\n"+"E-mail: "+email+"ou senha: "+ senha+ " inválidos.");
     }
 }

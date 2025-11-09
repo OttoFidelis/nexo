@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Consulta Financeira</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+
+  <body>
+    <header class="header">
+      <h2>Consulta Financeira</h2>
+      <button class="btn small" id="logout">Sair</button>
+    </header>
+
+    <div class="container">
+      <div class="card">
+        <h3>Saldo Mensal</h3>
+        <p id="saldo">R$ <span th:text="${saldo.quantia}"></span></p>
+      </div>
+
+      <div class="card">
+        <h3>Filtrar despesas</h3>
+
+        <label><data></data></label>
+        <input type="number" id="filtro-data" placeholder="Ex: 10" />
+
+        <button class="btn" id="btn-filtrar">Consultar</button>
+      </div>
+
+      <div class="card">
+        <h3>Despesas</h3>
+
+        <table border="1" width="100%" cellpadding="6">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-despesas">
+            <tr th:each="d : ${despesas}">
+              <td th:text="${d.descricao}">Descrição</td>
+              <td th:text="${#numbers.formatDecimal(d.quantia, 2, 'POINT', 'COMMA')}">0,00</td>
+              <td th:text="${#dates.format(d.data, 'dd/MM/yyyy')}">01/01/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script th:src="@{/js/consultora.js}"></script>
+  </body>
+</html>

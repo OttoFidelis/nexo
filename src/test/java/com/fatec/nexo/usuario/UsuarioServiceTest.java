@@ -19,6 +19,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.fatec.nexo.usuario.exceptions.UsuarioNotFoundException;
+
 /**
  * Testes unitários para o serviço de Usuários.
  *
@@ -137,5 +139,32 @@ class UsuarioServiceTest {
         // Act & Assert
         assertDoesNotThrow(() -> usuarioService.delete("ana.paula@example.com", usuarioValido));
         verify(usuarioRepository, times(1)).deleteById("ana.paula@example.com");
+    }
+
+    @Test
+    @DisplayName("Deve logar na conta de um usuáro")
+    void deveLogar() {
+        // Arrange
+        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", "senha123")).thenReturn(Optional.of(usuarioValido));
+
+        // Act
+        UsuarioModel resultado = usuarioService.login("ana.paula@example.com", "senha123");
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals("Ana Paula", resultado.getNome());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao tentar logar com credenciais inválidas")
+    void deveLancarExcecaoAoLogarComCredenciaisInvalidas() {
+
+        // Arrange
+        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", "senha123")).thenReturn(Optional.empty());
+        
+        // Act & Assert
+        assertThrows(UsuarioNotFoundException.class, () -> {
+            usuarioService.login("ana.paula@example.com", "senha123");
+        });
     }
 }
