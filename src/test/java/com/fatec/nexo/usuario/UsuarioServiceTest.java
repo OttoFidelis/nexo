@@ -145,7 +145,7 @@ class UsuarioServiceTest {
     @DisplayName("Deve logar na conta de um usuáro")
     void deveLogar() {
         // Arrange
-        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", "senha123")).thenReturn(Optional.of(usuarioValido));
+        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", java.util.Base64.getEncoder().encodeToString("senha123".getBytes()))).thenReturn(Optional.of(usuarioValido));
 
         // Act
         UsuarioModel resultado = usuarioService.login("ana.paula@example.com", "senha123");
@@ -160,8 +160,8 @@ class UsuarioServiceTest {
     void deveLancarExcecaoAoLogarComCredenciaisInvalidas() {
 
         // Arrange
-        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", "senha123")).thenReturn(Optional.empty());
-        
+        when(usuarioRepository.findByEmailAndSenha("ana.paula@example.com", java.util.Base64.getEncoder().encodeToString("senha123".getBytes()))).thenReturn(Optional.empty());
+
         // Act & Assert
         assertThrows(UsuarioNotFoundException.class, () -> {
             usuarioService.login("ana.paula@example.com", "senha123");
