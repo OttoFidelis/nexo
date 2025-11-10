@@ -1,4 +1,4 @@
-package com.fatec.nexo.commom.domain;
+package com.fatec.nexo.common.domain;
 
 import java.time.LocalDate;
 

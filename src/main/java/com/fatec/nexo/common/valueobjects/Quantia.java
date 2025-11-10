@@ -1,4 +1,4 @@
-package com.fatec.nexo.commom.valueobjects;
+package com.fatec.nexo.common.valueobjects;
 
 /**
  * Classe que possui os métodos relacionados a quantia de receitas e despesas

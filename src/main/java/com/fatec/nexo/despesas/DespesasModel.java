@@ -2,8 +2,8 @@ package com.fatec.nexo.despesas;
 
 import java.time.LocalDate;
 
-import com.fatec.nexo.commom.domain.Monetarios;
-import com.fatec.nexo.commom.valueobjects.Quantia;
+import com.fatec.nexo.common.domain.Monetarios;
+import com.fatec.nexo.common.valueobjects.Quantia;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
