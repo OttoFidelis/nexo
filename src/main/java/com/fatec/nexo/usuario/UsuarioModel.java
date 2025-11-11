@@ -14,7 +14,7 @@ import lombok.Data;
  * Modelo que representa um usuário no sistema
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 @Table(name = "Usuario")
 @Entity
@@ -65,12 +65,12 @@ public class UsuarioModel {
      * @param senha Senha do usuário (será criptografada)
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public UsuarioModel(String email, String nome, String senha) {
-        this.email = new EmailUtil().setEmail(email);
-        this.nome = new NomeUtil().setNome(nome);
-        this.senha = new SenhaUtil().setSenha(senha);
+        this.email = EmailUtil.setEmail(email);
+        this.nome = NomeUtil.setNome(nome);
+        this.senha = SenhaUtil.setSenha(senha);
     }
 
     /**
@@ -78,10 +78,10 @@ public class UsuarioModel {
      * @param nome Nome a ser definido
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public void setNome(String nome) {
-        this.nome = new NomeUtil().setNome(nome);
+        this.nome = NomeUtil.setNome(nome);
     }
     
     /**
@@ -89,10 +89,10 @@ public class UsuarioModel {
      * @param email Email a ser definido
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public void setEmail(String email) {
-        this.email = new EmailUtil().setEmail(email);
+        this.email = EmailUtil.setEmail(email);
     }
 
     /**
@@ -100,7 +100,7 @@ public class UsuarioModel {
      * @return Senha desencriptada
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public String getSenha() {
         return SenhaUtil.desencriptar(this.senha);
@@ -111,9 +111,9 @@ public class UsuarioModel {
      * @param senha Senha a ser definida (será criptografada)
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
     public void setSenha(String senha) {
-        this.senha = new SenhaUtil().setSenha(senha);
+        this.senha = SenhaUtil.setSenha(senha);
     }
 }

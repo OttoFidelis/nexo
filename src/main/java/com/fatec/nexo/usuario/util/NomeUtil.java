@@ -4,26 +4,9 @@ package com.fatec.nexo.usuario.util;
  * Classe para validar o nome do usuário
  * @author Otto Fidelis
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public class NomeUtil {
-    /**
-     * Nome do usuário
-     * @author Otto Fidelis
-     * @since 1.0
-     * @version 1.0
-     */
-    private String nome;
-
-    /**
-     * Construtor padrão.
-     * @author Otto Fidelis
-     * @since 1.0
-     * @version 1.0
-     */
-    public NomeUtil() {
-    }
-
     /**
      * Define o nome do usuário, garantindo que não contenha números.
      * @param nome O nome a ser definido
@@ -31,16 +14,15 @@ public class NomeUtil {
      * @throws IllegalArgumentException se o nome contiver números
      * @author Otto Fidelis
      * @since 1.0
-     * @version 1.0
+     * @version 1.1
      */
-    public String setNome(String nome) {
+    public static String setNome(String nome) {
         for(int i=0; i<nome.length(); i++){
             char c = nome.charAt(i);
             if(Character.isDigit(c)){
                 throw new IllegalArgumentException("Nome não pode conter números");
             }
         }
-        this.nome = nome;
-        return this.nome;
+        return nome;
     }
 }
