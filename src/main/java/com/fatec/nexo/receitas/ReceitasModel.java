@@ -41,6 +41,6 @@ public class ReceitasModel extends Monetarios{
      */
     @Override
     public void setQuantia(double quantia) {
-        this.quantia = new Quantia().setQuantia(quantia);
+        this.quantia = Quantia.setQuantia(quantia);
     }
 }

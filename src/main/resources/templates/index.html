@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Nexo - Login</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -14,10 +14,10 @@
     <!-- Form Login -->
     <form id="login-form" th:action="@{/nexo/login}" method="post">
       <label>Email</label>
-      <input type="email" id="login-email" required th:value="${email}">
+      <input type="email" name="email" id="login-email" required th:value="${email}">
 
       <label>Senha</label>
-      <input type="password" id="login-password" required th:value="${senha}">
+      <input type="password" name="senha" id="login-password" required th:value="${senha}">
 
       <button class="btn" type="submit">Entrar</button>
 
@@ -25,15 +25,15 @@
     </form>
 
     <!-- Form Registro -->
-    <form id="register-form" class="hidden" th:action="@{/nexo/login}" method="post">
+    <form id="register-form" class="hidden" th:action="@{/nexo/cadastro}" th:object="${usuario}" method="post">
       <label>Nome</label>
-      <input type="text" id="reg-name" required th:value="${nome}">
+      <input type="text" name="nome" id="reg-name" required th:value="${nome}">
 
       <label>Email</label>
-      <input type="email" id="reg-email" required>
+      <input type="email" name="email" id="reg-email" required th:value="${email}">
 
       <label>Senha</label>
-      <input type="password" id="reg-password" required th:value="${senha}">
+      <input type="password" name="senha" id="reg-password" required th:value="${senha}">
 
       <button class="btn" type="submit">Registrar</button>
 
@@ -44,6 +44,6 @@
   </div>
 </div>
 
-<script th:src="@{/js/auth.js}"></script>
+<script src="/js/auth.js" th:src="@{/js/auth.js}"></script>
 </body>
 </html>

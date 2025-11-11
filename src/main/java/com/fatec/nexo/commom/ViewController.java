@@ -1,9 +1,12 @@
 package com.fatec.nexo.commom;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,19 +36,25 @@ public class ViewController{
     private DespesasService despesasService;
     private ReceitasService receitasService;
 
-    public ViewController(UsuarioService usuarioService, SaldoService saldoService) {
+    public ViewController(UsuarioService usuarioService, SaldoService saldoService,
+            DespesasService despesasService, ReceitasService receitasService) {
         this.usuarioService = usuarioService;
         this.saldoService = saldoService;
+        this.despesasService = despesasService;
+        this.receitasService = receitasService;
     }
 
     @PostMapping("/login")
     public ModelAndView login(@RequestParam String email, @RequestParam String senha) {
     ModelAndView mv = new ModelAndView("consultora");
     try {
-        UsuarioModel usuario = usuarioService.login(email, senha);
-        SaldoModel saldo = saldoService.findLastSaldo(usuario);
-        List<DespesasModel> despesas = despesasService.findByUsuario(usuario);
-        List<ReceitasModel> receitas = receitasService.findByUsuario(usuario);
+    UsuarioModel usuario = usuarioService.login(email, senha);
+    SaldoModel saldo = saldoService.findLastSaldo(usuario);
+    if (saldo == null) saldo = new SaldoModel();
+    List<DespesasModel> despesas = despesasService.findByUsuario(usuario);
+    if (despesas == null) despesas = java.util.Collections.emptyList();
+    List<ReceitasModel> receitas = receitasService.findByUsuario(usuario);
+    if (receitas == null) receitas = java.util.Collections.emptyList();
         mv.addObject("usuario", usuario);
         mv.addObject("saldo", saldo);
         mv.addObject("despesas", despesas);
@@ -54,5 +63,30 @@ public class ViewController{
         mv.addObject("error", e.getMessage());
     }
     return mv;
+   }
+
+   @PostMapping("/cadastro")
+   public ModelAndView cadastro(@ModelAttribute UsuarioModel usuario) {
+    ModelAndView mv = new ModelAndView("consultora");
+    try {
+    UsuarioModel _usuario = usuarioService.create(usuario);
+    SaldoModel saldo = saldoService.create(_usuario);
+    List<DespesasModel> despesas = despesasService.findByUsuario(_usuario);
+    if (despesas == null) despesas = new ArrayList<>();
+    List<ReceitasModel> receitas = receitasService.findByUsuario(_usuario);
+    if (receitas == null) receitas = new ArrayList<>();
+        mv.addObject("usuario", _usuario);
+        mv.addObject("saldo", saldo);
+        mv.addObject("despesas", despesas);
+        mv.addObject("receitas", receitas);
+    } catch (Exception e) {
+        mv.addObject("error", e.getMessage());
+    }
+    return mv;
+   }
+
+   @GetMapping("/logout")
+   public String logout() {
+       return "index";
    }
 }
