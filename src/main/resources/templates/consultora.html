@@ -15,7 +15,7 @@
     <div class="container">
       <div class="card">
         <h3>Saldo Mensal</h3>
-        <p id="saldo">R$ <span th:text="${saldo.quantia}"></span></p>
+        <p id="saldo">R$ <span th:text="${#numbers.formatDecimal(saldo.quantia, 1, 2, 'COMMA')}"></span></p>
       </div>
 
       <div class="card">
@@ -41,8 +41,8 @@
           <tbody id="tabela-despesas">
             <tr th:each="d : ${despesas}">
               <td th:text="${d.descricao}">Descrição</td>
-              <td th:text="${#numbers.formatDecimal(d.quantia, 2, 'POINT', 'COMMA')}">0,00</td>
-              <td th:text="${#dates.format(d.data, 'dd/MM/yyyy')}">01/01/2025</td>
+              <td th:text="${#numbers.formatDecimal(d.quantia, 1, 2, 'COMMA')}">0,00</td>
+              <td th:text="${#temporals.format(d.data, 'dd/MM/yyyy')}">01/01/2025</td>
             </tr>
           </tbody>
         </table>

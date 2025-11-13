@@ -20,8 +20,8 @@ public class SenhaUtil {
      * @version 1.1
      */
     public static String setSenha(String senha) {
-        if(senha.length() != 8){
-            throw new IllegalArgumentException("Senha deve ter 8 caracteres");
+        if(senha.length() < 8){
+            throw new IllegalArgumentException("Senha deve ter pelo menos 8 caracteres");
         }
         return encrypt(senha);
     }
