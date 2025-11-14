@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nexo - Login</title>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header class="header">
+        <h2>Consulta Financeira</h2>
+        <a class="btn small" id="logout" th:href="@{/nexo/logout}">Sair</a>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2 id="form-title">Adicionar despesa</h2>
+            <!-- Form Registro Despesa -->
+            <form id="register-form" th:action="@{/nexo/cadastro}" th:object="${despesas}" method="post">
+                <label>Descricao</label>
+                <input type="text" name="descricao" id="reg-descricao" required th:value="${descricao}">
+
+                <label>Quantia</label>
+                <input type="number" name="quantia" id="reg-quantia" required th:value="${quantia}">
+
+                <button class="btn" type="submit">Adicionar</button>
+
+            </form>
+
+            <p id="message" class="message"></p>
+        </div>
+    </div>
+</body>
+
+</html>

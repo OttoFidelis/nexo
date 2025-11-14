@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fatec.nexo.categoria.CategoriaModel;
+import com.fatec.nexo.categoria.CategoriaService;
 import com.fatec.nexo.despesas.DespesasModel;
 import com.fatec.nexo.despesas.DespesasService;
 import com.fatec.nexo.receitas.ReceitasModel;
@@ -21,6 +23,8 @@ import com.fatec.nexo.saldo.SaldoService;
 import com.fatec.nexo.usuario.UsuarioModel;
 import com.fatec.nexo.usuario.UsuarioService;
 import com.fatec.nexo.usuario.exceptions.UsuarioNotFoundException;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/nexo")
@@ -35,13 +39,15 @@ public class ViewController{
     private SaldoService saldoService;
     private DespesasService despesasService;
     private ReceitasService receitasService;
+    private CategoriaService categoriaService;
 
     public ViewController(UsuarioService usuarioService, SaldoService saldoService,
-            DespesasService despesasService, ReceitasService receitasService) {
-        this.usuarioService = usuarioService;
-        this.saldoService = saldoService;
-        this.despesasService = despesasService;
-        this.receitasService = receitasService;
+        DespesasService despesasService, ReceitasService receitasService, CategoriaService categoriaService) {
+            this.usuarioService = usuarioService;
+            this.saldoService = saldoService;
+            this.despesasService = despesasService;
+            this.receitasService = receitasService;
+            this.categoriaService = categoriaService;
     }
 
     @PostMapping("/login")
@@ -89,4 +95,47 @@ public class ViewController{
    public String logout() {
        return "index";
    }
+
+   @PostMapping("/despesas/adicionar")
+   public ModelAndView adicionarDespesas(@ModelAttribute UsuarioModel usuario) {
+       ModelAndView mv = new ModelAndView("adicionarDespesas");
+       try {
+           UsuarioModel _usuario = usuarioService.findById(usuario.getEmail(), usuario);
+           mv.addObject("usuario", _usuario);
+           mv.addObject("saldo", saldoService.findLastSaldo(_usuario));
+       } catch (Exception e) {
+           mv.addObject("error", e.getMessage());
+       }
+       return mv;
+   }
+
+   @PostMapping("/categoria/adicionar")
+   public ModelAndView adicionarCategoria(@ModelAttribute UsuarioModel usuario) {
+       ModelAndView mv = new ModelAndView("adicionarCategoria");
+       try {
+           UsuarioModel _usuario = usuarioService.findById(usuario.getEmail(), usuario);
+           mv.addObject("usuario", _usuario);
+           mv.addObject("saldo", saldoService.findLastSaldo(_usuario));
+           mv.addObject("categoria", new CategoriaModel());
+       } catch (Exception e) {
+           mv.addObject("error", e.getMessage());
+       }
+       return mv;
+   }
+
+   @PostMapping("/categoria/criar")
+   public ModelAndView criarCategoria(@ModelAttribute CategoriaModel categoria) {
+       ModelAndView mv = new ModelAndView("consultora");
+       try {
+           categoriaService.create(categoria);
+           mv.addObject("usuario", usuarioService.findById(categoria.getSaldo().getUsuario().getEmail(), categoria.getSaldo().getUsuario()));
+           mv.addObject("saldo", saldoService.findLastSaldo(categoria.getSaldo().getUsuario()));
+           mv.addObject("despesas", despesasService.findByUsuario(categoria.getSaldo().getUsuario()));
+           mv.addObject("receitas", receitasService.findByUsuario(categoria.getSaldo().getUsuario()));
+       } catch (Exception e) {
+           mv.addObject("error", e.getMessage());
+       }
+       return mv;
+   }
+   
 }
